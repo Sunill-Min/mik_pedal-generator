@@ -52,9 +52,15 @@ npm start
 ```
 
 #### 아두이노 통신 설정
+아두이노 시작할 때, "pedal-generator-arduino > pedal-generator-arduino.ino"의 65~66번째줄에서 IP주소를 출력함
+- pedal-generator-web > package.json<br>
+아래의 코드를 접속하고자하는 아두이노의 ip주소로 변경
+    ```
+    "proxy": "http://192.168.0.14/"
+    ```
+
 - ppedal-generator-web > .env<br>
 아래의 코드를 접속하고자하는 아두이노의 ip주소로 변경
     ```
-    REACT_APP_API_HOST = http://192.168.208.63/
+    REACT_APP_API_HOST = http://192.168.0.14/
     ```
-    _아두이노 시작할 때, "pedal-generator-arduino > pedal-generator-arduino.ino"의 65~66번째줄에서 IP주소를 출력함_
