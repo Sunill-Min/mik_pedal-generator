@@ -10,10 +10,8 @@
 
 // 상수 설정
 #ifndef STASSID
-#define STASSID "wifi5078" // 와이파이 이름
-#define STAPSK "19900720" // 와이파이 비밀번호
-// #define STASSID "two_light"
-// #define STAPSK "bin09150720"
+#define STASSID "********" // 와이파이 이름
+#define STAPSK "*******" // 와이파이 비밀번호
 
 #define I2C_ADDRESS 0x40 // I2C 주소
 
