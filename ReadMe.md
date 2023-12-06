@@ -40,13 +40,21 @@ WIFI ESP8266 D1 R1 보드 사용함
 - npm : 9.8.1
 
 ### How to start?
-- 라이브러리 설치
+#### 라이브러리 설치
     ```
     npm install
     ```
 
-- 프론트 서버 시작<br>
+#### 프론트 서버 시작<br>
 (http://localhost:3000)
     ```
     npm start
     ```
+
+#### 아두이노 통신 설정
+- ppedal-generator-web > .env<br>
+아래의 코드를 접속하고자하는 아두이노의 ip주소로 변경
+    ```
+    REACT_APP_API_HOST = http://192.168.208.63/
+    ```
+    _아두이노 시작할 때, "pedal-generator-arduino > pedal-generator-arduino.ino"의 65~66번째줄에서 IP주소를 출력함_
