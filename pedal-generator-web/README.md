@@ -1,3 +1,8 @@
+## custom info
+node version : 18.18.0
+
+npm version : 9.8.1
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

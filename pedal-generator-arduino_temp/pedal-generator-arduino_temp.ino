@@ -10,12 +10,14 @@
 
 // 상수 설정
 #ifndef STASSID
-#define STASSID "********" // 와이파이 이름
-#define STAPSK "*******" // 와이파이 비밀번호
+// #define STASSID "wifi5078" // 와이파이 이름
+// #define STAPSK "19900720" // 와이파이 비밀번호
+#define STASSID "two_light"
+#define STAPSK "bin09150720"
 
 #define I2C_ADDRESS 0x40 // I2C 주소
 
-#define LED_PIN 12
+#define LED_PIN 11
 #endif
 
 const char* ssid = STASSID;
@@ -33,8 +35,10 @@ ESP8266WebServer server(80);
 INA219_WE ina219(I2C_ADDRESS);
 
 void handleRoot() {
+  digitalWrite(LED_PIN, 0);
   server.sendHeader("Access-Control-Allow-Origin","*");
   server.send(200, "Application/json", "{\"loadVoltage\":" + String(loadVoltage_V) + ", \"current\":" + String(current_mA) + "}");
+  digitalWrite(LED_PIN, 1);
 }
 
 void handleNotFound() {
@@ -51,24 +55,20 @@ void handleNotFound() {
 }
 
 void setup(void) {
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, LOW);
   Serial.begin(9600);
-
+  pinMode(LED_PIN, OUTPUT);
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   Serial.println("");
 
   // Wait for connection
   while (WiFi.status() != WL_CONNECTED) {
-    delay(250);
-    digitalWrite(LED_PIN, LOW);
-    delay(250);
-    digitalWrite(LED_PIN, HIGH);
+    digitalWrite(LED_PIN, 0);
+    delay(500);
     Serial.print(".");
+    digitalWrite(LED_PIN, 1);
   }
-
-  digitalWrite(LED_PIN, HIGH);
+  digitalWrite(LED_PIN, 0);
   Serial.println("");
   Serial.print("Connected WiFi Name : ");
   Serial.println(ssid);
@@ -151,12 +151,19 @@ void setup(void) {
   Serial.println("INA219 Current Sensor with solar panel");
 
   Serial.println("Start Program---------------------\n\n\n");
+  digitalWrite(LED_PIN, 1);
 }
 
 void loop(void) {
-  digitalWrite(LED_PIN, HIGH);
   server.handleClient();
   MDNS.update();
+  // float shuntVoltage_mV = 0.0;
+  // float loadVoltage_V = 0.0;
+  // float busVoltage_V = 0.0;
+  // float current_mA = 0.0;
+  // float power_mW = 0.0; 
+  // bool ina219_overflow = false;
+  
   shuntVoltage_mV = ina219.getShuntVoltage_mV();
   busVoltage_V = ina219.getBusVoltage_V();
   current_mA = ina219.getCurrent_mA();
@@ -164,10 +171,11 @@ void loop(void) {
   loadVoltage_V  = busVoltage_V + (shuntVoltage_mV/1000);
   ina219_overflow = ina219.getOverflow();
   
-  Serial.print("IP address : ");
-  Serial.println(WiFi.localIP());
+  // Serial.print("Shunt Voltage [mV]: "); Serial.println(shuntVoltage_mV);
+  // Serial.print("Bus Voltage [V]: "); Serial.println(busVoltage_V);
   Serial.print("Load Voltage [V]: "); Serial.println(loadVoltage_V);
   Serial.print("Current[mA]: "); Serial.println(current_mA);
+  // Serial.print("Bus Power [mW]: "); Serial.println(power_mW);
 
   if(!ina219_overflow){
     Serial.println("Values OK - no overflow");
@@ -177,68 +185,5 @@ void loop(void) {
   }
   Serial.println();
 
-  delay(500);
-
-  server.handleClient();
-  MDNS.update();
-  shuntVoltage_mV = ina219.getShuntVoltage_mV();
-  busVoltage_V = ina219.getBusVoltage_V();
-  current_mA = ina219.getCurrent_mA();
-  power_mW = ina219.getBusPower();
-  loadVoltage_V  = busVoltage_V + (shuntVoltage_mV/1000);
-  ina219_overflow = ina219.getOverflow();
-
-  if(!ina219_overflow){
-    Serial.println("Values OK - no overflow");
-  }
-  else{
-    Serial.println("Overflow! Choose higher PGAIN");
-  }
-  Serial.println();
-
-  delay(500);
-
-  digitalWrite(LED_PIN, LOW);
-  server.handleClient();
-  MDNS.update();
-  shuntVoltage_mV = ina219.getShuntVoltage_mV();
-  busVoltage_V = ina219.getBusVoltage_V();
-  current_mA = ina219.getCurrent_mA();
-  power_mW = ina219.getBusPower();
-  loadVoltage_V  = busVoltage_V + (shuntVoltage_mV/1000);
-  ina219_overflow = ina219.getOverflow();
-  
-  Serial.print("IP address : ");
-  Serial.println(WiFi.localIP());
-  Serial.print("Load Voltage [V]: "); Serial.println(loadVoltage_V);
-  Serial.print("Current[mA]: "); Serial.println(current_mA);
-
-  if(!ina219_overflow){
-    Serial.println("Values OK - no overflow");
-  }
-  else{
-    Serial.println("Overflow! Choose higher PGAIN");
-  }
-  Serial.println();
-
-  delay(500);
-
-  server.handleClient();
-  MDNS.update();
-  shuntVoltage_mV = ina219.getShuntVoltage_mV();
-  busVoltage_V = ina219.getBusVoltage_V();
-  current_mA = ina219.getCurrent_mA();
-  power_mW = ina219.getBusPower();
-  loadVoltage_V  = busVoltage_V + (shuntVoltage_mV/1000);
-  ina219_overflow = ina219.getOverflow();
-
-  if(!ina219_overflow){
-    Serial.println("Values OK - no overflow");
-  }
-  else{
-    Serial.println("Overflow! Choose higher PGAIN");
-  }
-  Serial.println();
-
-  delay(500);
+  delay(1000);
 }
