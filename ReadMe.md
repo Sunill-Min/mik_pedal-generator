@@ -27,10 +27,10 @@ WIFI ESP8266 D1 R1 보드 사용함
 서버가 될 아두이노와 프론트를 돌릴 컴퓨터가 같은 와이파이에 접속해야함
 - pedal-generator-arduino.ino<br>
 아래 코드를 접속하고자 하는 와이파이 정보로 변경
-    ```
-    #define STASSID "********" // 와이파이 이름
-    #define STAPSK "*******" // 와이파이 비밀번호
-    ```
+```
+#define STASSID "********" // 와이파이 이름
+#define STAPSK "*******" // 와이파이 비밀번호
+```
 
 ## pedal-generator-web
 컴퓨터 프론트
@@ -41,16 +41,15 @@ WIFI ESP8266 D1 R1 보드 사용함
 
 ### How to start?
 #### 라이브러리 설치
-    ```
-    npm install
-    ```
+```
+npm install
+```
 
 #### 프론트 서버 시작<br>
 (http://localhost:3000)
-
-    ```
-    npm start
-    ```
+```
+npm start
+```
 
 #### 아두이노 통신 설정
 - ppedal-generator-web > .env<br>
